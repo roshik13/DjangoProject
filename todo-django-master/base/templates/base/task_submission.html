@@ -1,0 +1,7 @@
+{% extends 'base/main.html' %} {% block content %}
+<h1>Submissions</h1>
+{{ pairs.task_set }}
+{% for pair in pairs %}
+<h2>{{ pair.user }}</h2>
+{% endfor %}
+{% endblock content %}

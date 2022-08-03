@@ -4,15 +4,7 @@
 <form method="POST" action="">
     <a href="{% url 'tasks'%}">BACK TASKS</a>
     {% csrf_token %}
-    {% if user.is_authenticated and user.username == "Admin123"  %}
     {{form.as_p}}
     <input type="submit" value="Submit">
-    {% else %}
-    <h1>Title</h1>
-    <p>{{ task.title }}</p>
-    <h1>Description</h1>
-    <p>{{ task.description }}</p>
-
-    {% endif %}
 </form>
 {% endblock content %}

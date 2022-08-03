@@ -36,12 +36,17 @@
             <div class="task-complete-icon"></div>
             <i><s><a href="{% url 'task-update' task.id %}">{{task}}</a></s></i> {% else %}
             <div class="task-incomplete-icon"></div>
-            <a href="{% url 'task-update' task.id %}">{{task}}</a> {% endif %}
+            {% if user.is_authenticated and user.username == "Admin123"  %}
+            <a href="{% url 'task-update' task.id %}">{{task}}</a>  
+            {% else %}
+            <a href="{% url 'user-submit' task.id %}">{{task}}</a> {% endif %}
+            {% endif %}
+
         </div>
         <div class="task-controls">
             {% if user.is_authenticated and user.username == "Admin123"  %}
             <a class="delete-link" href="{% url 'task-delete' task.id %}">&#215;</a>
-            <span class="handle">&nbsp;&#10247;</span>
+            <a class="handle" href="{% url 'task-submissions' task.id %}">&nbsp;&#10247;</a>
             {% endif %}
         </div>
     </div>
