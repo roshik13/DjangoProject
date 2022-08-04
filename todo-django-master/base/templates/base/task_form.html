@@ -2,9 +2,16 @@
 {% block content %}
 <h1>Task</h1>
 <form method="POST" action="">
-    <a href="{% url 'tasks'%}">BACK TASKS</a>
+    <a href="{% url 'tasks'%}">BACK TO TASKS</a>
     {% csrf_token %}
+    {% if user.is_authenticated and user.username == "Admin123" %}
     {{form.as_p}}
     <input type="submit" value="Submit">
+    {% else %}
+    <h1>Title</h1>
+    {{ task.title }}
+    <h1>Description</h1>
+    {{ task.description }}
+    {% endif %}
 </form>
 {% endblock content %}

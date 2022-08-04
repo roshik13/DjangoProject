@@ -18,10 +18,16 @@
         <input type='text' name='area-busca' placeholder="Search your task" value="{{search_input}}">
         <input class="button" type="submit" value='Search'>
     </form>
+    {% if user.is_authenticated and user.username != "Admin123"  %}
+    <a href="{% url 'user-submit' %}">Submit Tasks</a>  {% else %}
+    <a href="{% url 'task-submissions' %}">Verify Task Submissions</a> 
+    {% endif %}
+    
     {% if tasks|length > 0 and user.is_authenticated and user.username == "Admin123" %}
     <a id="add-link" href="{% url 'task-create' %}">&#x2b;</a>
     {% endif %}
 </div>
+
 
 
 <!-- Hidden form. Form submits new item positions -->
@@ -36,17 +42,15 @@
             <div class="task-complete-icon"></div>
             <i><s><a href="{% url 'task-update' task.id %}">{{task}}</a></s></i> {% else %}
             <div class="task-incomplete-icon"></div>
-            {% if user.is_authenticated and user.username == "Admin123"  %}
             <a href="{% url 'task-update' task.id %}">{{task}}</a>  
-            {% else %}
-            <a href="{% url 'user-submit' task.id %}">{{task}}</a> {% endif %}
             {% endif %}
+            
 
         </div>
         <div class="task-controls">
             {% if user.is_authenticated and user.username == "Admin123"  %}
             <a class="delete-link" href="{% url 'task-delete' task.id %}">&#215;</a>
-            <a class="handle" href="{% url 'task-submissions' task.id %}">&nbsp;&#10247;</a>
+            <a class="handle" href="{% url 'task-submissions' %}">&nbsp;&#10247;</a>
             {% endif %}
         </div>
     </div>

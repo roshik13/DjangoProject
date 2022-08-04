@@ -1,10 +1,10 @@
 from email.mime import base
+import re
 from urllib import request
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView,FormView
-
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -12,8 +12,7 @@ from django.contrib.auth import login
 
 from django.urls import reverse_lazy
 from base.models import *
-
-
+context2={}
 class CustomLoginView(LoginView):
     template_name= "base/login.html"
     fields = "__all__"
@@ -47,7 +46,7 @@ class TaskList(LoginRequiredMixin,ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['count'] = context['tasks'].count()
-
+        context2=context
         search_input = self.request.GET.get('area-busca') or ''
         if search_input:
             context['tasks']=context['tasks'].filter(
@@ -86,17 +85,36 @@ class TaskDelete(LoginRequiredMixin,DeleteView):
 class TaskSubmit(LoginRequiredMixin,ListView):
     template_name='base/task_submission.html'
     model=Pair
-    fields=['user','complete']
+    fields=['user','complete','task']
     context_object_name = 'pairs'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+        context1 = super().get_context_data(**kwargs)
+        return context1
 
 class UserSubmit(LoginRequiredMixin,CreateView):
     template_name='base/user_submit.html'
     model=Pair
-    fields=['complete']
+    fields=['task']
     success_url=reverse_lazy('tasks')
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(UserSubmit, self).form_valid(form)
+
+class TaskVerify(LoginRequiredMixin,ListView):
+    template_name='base/task_submission.html'
+    model=Pair
+    fields=['user','complete','task']
+    context_object_name = 'pairs'
+    def get_context_data(self, **kwargs):
+        context1 = super().get_context_data(**kwargs)
+        return context1
+
+    def YOUR_VIEW_DEF(request, pk):
+        pair=Pair.objects.get(pk=pk)
+        if not pair.complete:
+            pair.user.profile.rewards+=pair.task.rewards
+            pair.complete=True
+            pair.save()
+            pair.user.profile.save()
+        #return render(request,'base/task_submission.html')
+        return redirect('task-submissions')

@@ -1,7 +1,24 @@
 {% extends 'base/main.html' %} {% block content %}
+<a href="{% url 'tasks'%}">BACK TO TASKS</a>
+
 <h1>Submissions</h1>
-{{ pairs.task_set }}
-{% for pair in pairs %}
-<h2>{{ pair.user }}</h2>
-{% endfor %}
+
+<table>
+    <tr>
+      <th>Task</th>
+      <th>User</th> 
+      <th>Rewards</th>
+      <th>Submit</th>
+    </tr>
+    {% for pair in pairs %}
+    <tr>
+      <td>{{ pair.task.title }}</td>
+      <td>{{ pair.user }}</td> 
+      <td>{{ pair.user.profile.rewards }}</td>
+      <td>    {% if not pair.complete %}<a
+        href="{% url 'YOUR_VIEW' pair.id %}">Submit
+    </a>{% else %} Completed {% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
 {% endblock content %}

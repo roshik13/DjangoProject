@@ -11,7 +11,8 @@ urlpatterns =[
     path('task-create/', CreateTask.as_view(), name= "task-create"),
     path('task-update/<int:pk>/', TaskUpdate.as_view(), name= 'task-update'),
     path('task-delete/<int:pk>/', TaskDelete.as_view(), name= 'task-delete'),
-    path('task-submissions/<int:pk>/', TaskSubmit.as_view(), name= 'task-submissions'),
-    path('user-submit/<int:pk>/', UserSubmit.as_view(), name= 'user-submit'),
+    path('task-submissions/', TaskSubmit.as_view(), name= 'task-submissions'),
+    path('user-submit/', UserSubmit.as_view(), name= 'user-submit'),
+    path('some/<int:pk>/',TaskVerify.YOUR_VIEW_DEF,name='YOUR_VIEW')
 
 ]
