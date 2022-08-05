@@ -1,5 +1,6 @@
 from email.mime import base
-import re
+from django.contrib.auth.models import User
+
 from urllib import request
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
@@ -118,3 +119,8 @@ class TaskVerify(LoginRequiredMixin,ListView):
             pair.user.profile.save()
         #return render(request,'base/task_submission.html')
         return redirect('task-submissions')
+
+def certificate_request(request):
+    
+        return render(request, 'base/certificate.html')  
+    
