@@ -1,5 +1,6 @@
 {% extends 'base/main.html'%}
 {% block content %}
+<a href="{% url 'tasks'%}">BACK TO TASKS</a>
     <form method="POST" action="">
         {% csrf_token %}
         {{form.as_p}}

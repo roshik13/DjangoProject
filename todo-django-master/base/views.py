@@ -114,7 +114,16 @@ class TaskVerify(LoginRequiredMixin,ListView):
         pair=Pair.objects.get(pk=pk)
         if not pair.complete:
             pair.user.profile.rewards+=pair.task.rewards
-            pair.complete=True
+            pair.complete=1
+            pair.save()
+            pair.user.profile.save()
+        #return render(request,'base/task_submission.html')
+        return redirect('task-submissions')
+
+    def YOUR_VIEW_DEF1(request, pk):
+        pair=Pair.objects.get(pk=pk)
+        if not pair.complete:
+            pair.complete=-1
             pair.save()
             pair.user.profile.save()
         #return render(request,'base/task_submission.html')

@@ -22,7 +22,7 @@ class Pair(models.Model):
     user = models.ForeignKey(
         User, on_delete = models.CASCADE, null = True, blank=True
     )
-    complete=models.BooleanField(default=False)
+    complete=models.IntegerField(default=0)
     upload=models.FileField(upload_to='uploads/')
     task=models.ForeignKey(
         Task,on_delete=models.CASCADE,null = True, blank=True

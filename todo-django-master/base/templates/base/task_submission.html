@@ -8,7 +8,7 @@
       <th>Task</th>
       <th>User</th> 
       <th>Rewards</th>
-      <th>Submit</th>
+      <th>Evaluate</th>
     </tr>
     {% for pair in pairs %}
     <tr>
@@ -17,7 +17,11 @@
       <td>{{ pair.user.profile.rewards }}</td>
       <td>    {% if not pair.complete %}<a
         href="{% url 'YOUR_VIEW' pair.id %}">Submit
-    </a>{% else %} Completed {% endif %}</td>
+    </a>
+    <a
+        href="{% url 'YOUR_VIEW1' pair.id %}">Reject
+    </a>
+    {% elif pair.complete == 1 %} Completed {% else %} Rejected {% endif %}</td>
     </tr>
     {% endfor %}
   </table>
