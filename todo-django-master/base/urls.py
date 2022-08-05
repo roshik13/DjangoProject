@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import *
 from django.contrib.auth.views import LogoutView
+from . import views
 
 urlpatterns =[
     path('login/', CustomLoginView.as_view(), name ='login'),
@@ -13,6 +14,7 @@ urlpatterns =[
     path('task-delete/<int:pk>/', TaskDelete.as_view(), name= 'task-delete'),
     path('task-submissions/', TaskSubmit.as_view(), name= 'task-submissions'),
     path('user-submit/', UserSubmit.as_view(), name= 'user-submit'),
-    path('some/<int:pk>/',TaskVerify.YOUR_VIEW_DEF,name='YOUR_VIEW')
+    path('some/<int:pk>/',TaskVerify.YOUR_VIEW_DEF,name='YOUR_VIEW'),
+    path('certificate/',views.certificate_request,name='certificate')
 
 ]

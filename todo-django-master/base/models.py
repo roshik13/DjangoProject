@@ -36,6 +36,7 @@ class Profile(models.Model):
     rewards=models.IntegerField(default=0)
     #college = models.CharField(max_length=30, blank=True)
     #birth_date = models.DateField(null=True, blank=True)
+    name=models.CharField(max_length=50,null=True, blank=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
