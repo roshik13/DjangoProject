@@ -43,11 +43,20 @@ class RegisterPage(FormView):
 class TaskList(LoginRequiredMixin,ListView):
     model = Task
     context_object_name = 'tasks'
-
     def get_context_data(self, **kwargs):
+        task=Task.objects.all()
+        pair=Pair.objects.all()
+        pair=pair.filter(user=self.request.user)
+        complete={}
+        for tasks in task:
+            complete[tasks]=False
+        for pairs in pair:
+            if pairs.complete==1:
+                complete[pairs.task]=True
+
         context = super().get_context_data(**kwargs)
         context['count'] = context['tasks'].count()
-        context2=context
+        context['completed']=complete
         search_input = self.request.GET.get('area-busca') or ''
         if search_input:
             context['tasks']=context['tasks'].filter(
@@ -75,7 +84,7 @@ class CreateTask(LoginRequiredMixin,CreateView):
 
 class TaskUpdate(LoginRequiredMixin,UpdateView):  
     model = Task
-    fields = ['title','description', 'complete']
+    fields = ['title','description']
     success_url = reverse_lazy('tasks')
 
 class TaskDelete(LoginRequiredMixin,DeleteView):
@@ -112,7 +121,7 @@ class TaskVerify(LoginRequiredMixin,ListView):
 
     def YOUR_VIEW_DEF(request, pk):
         pair=Pair.objects.get(pk=pk)
-        if not pair.complete:
+        if pair.complete<1:
             pair.user.profile.rewards+=pair.task.rewards
             pair.complete=1
             pair.save()
@@ -133,3 +142,8 @@ def certificate_request(request):
     
         return render(request, 'base/certificate.html')  
     
+from django.template.defaulttags import register
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
