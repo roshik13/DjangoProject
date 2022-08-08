@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -27,6 +28,7 @@ class Pair(models.Model):
     task=models.ForeignKey(
         Task,on_delete=models.CASCADE,null = True, blank=True
     )
+    image = models.ImageField(upload_to="images", null=True)
 
 class Inp(models.Model):
     upload=models.FileField(upload_to='uploads/')

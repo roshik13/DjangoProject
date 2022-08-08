@@ -5,24 +5,27 @@
 
 <table>
     <tr>
-      <th>Task</th>
-      <th>User</th> 
-      <th>Rewards</th>
-      <th>Evaluate</th>
+        <th>Task</th>
+        <th>User</th>
+        <th>Rewards</th>
+        <th>Evaluate</th>
+        <th>Submissions</th>
     </tr>
     {% for pair in pairs %}
     <tr>
-      <td>{{ pair.task.title }}</td>
-      <td>{{ pair.user }}</td> 
-      <td>{{ pair.user.profile.rewards }}</td>
-      <td>    {% if not pair.complete %}<a
-        href="{% url 'YOUR_VIEW' pair.id %}">Submit
+        <td>{{ pair.task.title }}</td>
+        <td>{{ pair.user }}</td>
+        <td>{{ pair.user.profile.rewards }}</td>
+        <td> {% if not pair.complete %}<a href="{% url 'YOUR_VIEW' pair.id %}">Submit
     </a>
-    <a
-        href="{% url 'YOUR_VIEW1' pair.id %}">Reject
-    </a>
-    {% elif pair.complete == 1 %} Completed {% else %} Rejected {% endif %}</td>
+            <a href="{% url 'YOUR_VIEW1' pair.id %}">Reject
+    </a> {% elif pair.complete == 1 %} Completed {% else %} Rejected {% endif %}</td>
+        <td>
+            <p>
+                <a style="height: 10px;" href="/media/{{pair.image}}/"> {% if pair.image %} Image Link {% else %} {% endif %}</a>
+            </p>
+        </td>
     </tr>
     {% endfor %}
-  </table>
+</table>
 {% endblock content %}
