@@ -1,0 +1,22 @@
+{% extends 'base/main.html'%}
+{% block content %}
+<a href="{% url 'profile'%}">Back to User Profile</a>
+<h1>Edit User Details</h1>
+
+<form method="POST" action="{% url 'profile'%}">
+    {% csrf_token %}
+    {{form.as_p}}
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <label for="email">Email:</label><br>
+    <input type="text" id="email" name="email"><br>
+    <label for="college">College:</label><br>
+    <input type="text" id="college" name="college"><br>
+    <label for="major">Major:</label><br>
+    <input type="text" id="major" name="major"><br>
+    <label for="year">Year:</label><br>
+    <input type="text" id="year" name="year"><br><br>
+    <input type="submit" style="margin-left: 45%" value="Update"/>
+
+</form>
+{% endblock content %}

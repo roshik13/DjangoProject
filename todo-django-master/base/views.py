@@ -1,4 +1,6 @@
 from email.mime import base
+import profile
+from pyexpat.errors import messages
 from django.contrib.auth.models import User
 
 from urllib import request
@@ -141,7 +143,22 @@ class TaskVerify(LoginRequiredMixin,ListView):
 def certificate_request(request):
     
         return render(request, 'base/certificate.html')  
-    
+
+def user_profile(request):
+    return render(request, 'base/user_profile.html')
+
+def edit_user_profile(request):
+    if request.method=='POST':
+        name=request.POST['name']
+        email=request.POST['email']
+        college=request.POST['college']
+        major=request.POST['major']
+        year=request.POST['year']
+        prof=Profile.objects.create(name=name,email=email,college=college,major=major,year=year)
+        prof.save()
+        messages.success(request,'Data has been updated')
+    return render(request, 'base/profile_edit.html')
+
 from django.template.defaulttags import register
 
 @register.filter

@@ -11,7 +11,8 @@
     <a href="{% url 'logout' %}">Logout</a> {% else %}
     <a href="{% url 'login' %}">Login</a> {% endif %}
     {% if user.username != "Admin123"  %}
-    <a href="{% url 'certificate' %}"> Certificate </a></p>
+    
+    <a href="{% url 'profile' %}"> User Profile </a></p>
     {% endif %}
 </div>
 

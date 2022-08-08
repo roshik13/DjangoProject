@@ -16,6 +16,7 @@ urlpatterns =[
     path('user-submit/', UserSubmit.as_view(), name= 'user-submit'),
     path('some/<int:pk>/',TaskVerify.YOUR_VIEW_DEF,name='YOUR_VIEW'),
     path('some1/<int:pk>/',TaskVerify.YOUR_VIEW_DEF1,name='YOUR_VIEW1'),
-    path('certificate/',views.certificate_request,name='certificate')
-
+    path('certificate/',views.certificate_request,name='certificate'),
+    path('profile/', views.user_profile,name='profile'),
+    path('profile/edit-profile/', views.edit_user_profile,name='edit-profile')
 ]
