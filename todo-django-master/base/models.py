@@ -1,3 +1,4 @@
+from email.policy import default
 import email
 #from os import major
 #from pyexpat import model
@@ -30,6 +31,7 @@ class Pair(models.Model):
     task=models.ForeignKey(
         Task,on_delete=models.CASCADE,null = True, blank=True
     )
+    image = models.ImageField(upload_to="images", null=True)
 
 class Inp(models.Model):
     upload=models.FileField(upload_to='uploads/')

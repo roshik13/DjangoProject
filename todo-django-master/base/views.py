@@ -15,6 +15,9 @@ from django.contrib.auth import login
 
 from django.urls import reverse_lazy
 from base.models import *
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from base.forms import *
 
 context2={}
@@ -99,7 +102,7 @@ class TaskDelete(LoginRequiredMixin,DeleteView):
 class TaskSubmit(LoginRequiredMixin,ListView):
     template_name='base/task_submission.html'
     model=Pair
-    fields=['user','complete','task']
+    fields=['user','complete','task','image']
     context_object_name = 'pairs'
     def get_context_data(self, **kwargs):
         context1 = super().get_context_data(**kwargs)
@@ -108,11 +111,30 @@ class TaskSubmit(LoginRequiredMixin,ListView):
 class UserSubmit(LoginRequiredMixin,CreateView):
     template_name='base/user_submit.html'
     model=Pair
-    fields=['task']
+    fields=['task', 'image']
     success_url=reverse_lazy('tasks')
+    
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(UserSubmit, self).form_valid(form)
+        # pair_object = form.save(commit=False)
+        task_id = dict(form.data)['task'][0]
+
+        task=Task.objects.get(pk=task_id)
+        user=User.objects.get(username=self.request.user)
+        uploaded_image = dict(self.request.FILES)['image'][0]
+
+        user_image_obj = Pair.objects.filter(task=task, user=user)
+
+        if not list(user_image_obj):
+            user_image_obj=Pair.objects.create(task=task, image=uploaded_image, user=user)
+            user_image_obj.save()
+        else:
+            for item in user_image_obj:
+                item.image = uploaded_image
+                item.save()
+
+        # pair_object.save()
+        return HttpResponseRedirect(reverse('tasks'))
+    
 
 class TaskVerify(LoginRequiredMixin,ListView):
     template_name='base/task_submission.html'

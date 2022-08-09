@@ -1,9 +1,7 @@
-{% extends 'base/main.html'%}
-{% block content %}
+{% extends 'base/main.html'%} {% block content %}
 <a href="{% url 'tasks'%}">BACK TO TASKS</a>
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Submit">
-    </form>
+<form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %} {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>
 {% endblock content %}
