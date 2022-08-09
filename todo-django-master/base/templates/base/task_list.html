@@ -4,14 +4,14 @@
 <div class="header-bar">
     <div>
         <h1>Hello {{request.user|title}}</h1>
-        <h3 style="margin:0">You have <i>{{count}}</i> incomplete task{{ count|pluralize:"s" }}</h3>
     </div>
 
     {% if request.user.is_authenticated %}
     <a href="{% url 'logout' %}">Logout</a> {% else %}
     <a href="{% url 'login' %}">Login</a> {% endif %}
     {% if user.username != "Admin123"  %}
-    <a href="{% url 'certificate' %}"> Certificate </a></p>
+    
+    <a href="{% url 'profile' %}"> User Profile </a></p>
     {% endif %}
 </div>
 

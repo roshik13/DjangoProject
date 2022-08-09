@@ -1,4 +1,7 @@
 from email.policy import default
+import email
+#from os import major
+#from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -35,10 +38,15 @@ class Inp(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rewards=models.IntegerField(default=0)
-    #college = models.CharField(max_length=30, blank=True)
+    rewards = models.IntegerField(default=0)
+    name = models.CharField(max_length=50, null=True, blank=True)
+    email = models.EmailField(max_length=50, null=True, blank=True)
     #birth_date = models.DateField(null=True, blank=True)
-    name=models.CharField(max_length=50,null=True, blank=True)
+    college = models.CharField(max_length=50, blank=True)
+    major = models.CharField(max_length=50, null=True, blank=True)
+    year = models.IntegerField(default=1)
+    def __str__(self):
+        return self.name
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
