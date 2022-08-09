@@ -15,6 +15,8 @@ from django.contrib.auth import login
 
 from django.urls import reverse_lazy
 from base.models import *
+from base.forms import *
+
 context2={}
 class CustomLoginView(LoginView):
     template_name= "base/login.html"
@@ -141,23 +143,40 @@ class TaskVerify(LoginRequiredMixin,ListView):
         return redirect('task-submissions')
 
 def certificate_request(request):
-    
+
         return render(request, 'base/certificate.html')  
 
 def user_profile(request):
-    return render(request, 'base/user_profile.html')
+    form= Profile.objects.all()
+    profile=form.filter(user=request.user)
+    context = {'profile':profile}
+    #print(profile.name)
+    return render(request, 'base/user_profile.html', context)
 
 def edit_user_profile(request):
-    if request.method=='POST':
-        name=request.POST['name']
-        email=request.POST['email']
-        college=request.POST['college']
-        major=request.POST['major']
-        year=request.POST['year']
-        prof=Profile.objects.create(name=name,email=email,college=college,major=major,year=year)
-        prof.save()
-        messages.success(request,'Data has been updated')
-    return render(request, 'base/profile_edit.html')
+    form= ProfileForm(instance=request.user.profile)
+    if request.method == 'POST':
+        form= ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            #form.instance.user = request.user
+            form.save()
+            success_url = reverse_lazy('profile')
+            #return render(request, 'base/user_profile.html')
+            #return redirect(request, 'profile')
+    context = {'form':form}
+    return render(request, 'base/profile_edit.html', context)
+
+
+#class UserProfileUpdate(LoginRequiredMixin,UpdateView):
+    #template_name='base/user_profile.html'
+    #model=Profile
+    #fields=['name', 'email', 'college', 'major', 'year']
+    #success_url=reverse_lazy('profile')
+    #def form_valid(self, form):
+        #form.instance.user = self.request.user
+        #self.request.user =form.save()
+        #return super(UserProfileUpdate, self).form_valid(form)
+
 
 from django.template.defaulttags import register
 
