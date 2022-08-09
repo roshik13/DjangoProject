@@ -130,7 +130,7 @@ class UserSubmit(LoginRequiredMixin,CreateView):
                 item.save()
 
         # pair_object.save()
-        return HttpResponseRedirect(reverse('user-submit'))
+        return HttpResponseRedirect(reverse('tasks'))
     
 
 class TaskVerify(LoginRequiredMixin,ListView):
