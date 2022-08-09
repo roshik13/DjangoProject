@@ -1,0 +1,17 @@
+{% extends 'base/main.html'%}
+{% block content %}
+<a href="{% url 'tasks'%}">BACK TO TASKS</a>
+<h1>User Details</h1>
+    <a href="{% url 'edit-profile' %}">Edit Profile</a>
+    <a href="{% url 'certificate' %}">View Certificate </a></p>
+    <h3>Name: </h3>
+    {{request.user.profile.name}}<br>
+    <h3>Email: </h3>
+    {{request.user.profile.email}}<br>
+    <h3>College: </h3>
+    {{request.user.profile.college}}<br>
+    <h3>Major: </h3>
+    {{request.user.profile.major}}<br>
+    <h3>Year: </h3>
+    {{request.user.profile.year}}<br>
+{% endblock content %}
